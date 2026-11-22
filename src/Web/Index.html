@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Socios - Cooperativa UPED</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; color: #1a1a1a; }
+        h1 { color: #0B3D6E; }
+        table { border-collapse: collapse; min-width: 320px; }
+        th { background: #0B3D6E; color: white; padding: 8px 14px; text-align: left; }
+        td { border-bottom: 1px solid #ccd; padding: 8px 14px; }
+        #estado { color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+<h1>Socios de la cooperativa</h1>
+<p id="estado">Cargando...</p>
+<table>
+    <thead><tr><th>Id</th><th>Nombre</th><th>Saldo</th></tr></thead>
+    <tbody id="filas"></tbody>
+</table>
+<script>
+    fetch("/socios")
+        .then(respuesta => respuesta.json())
+        .then(socios => {
+            const filas = document.getElementById("filas");
+            socios.forEach(s => {
+                filas.innerHTML += "<tr><td>" + s.id + "</td><td>" + s.nombre + "</td><td>$" + s.saldo + "</td></tr>";
+            });
+            document.getElementById("estado").textContent = socios.length + " socios cargados";
+        })
+        .catch(() => {
+            document.getElementById("estado").textContent = "No se pudo conectar con el servidor";
+        });
+</script>
+</body>
+</html>
+```[cite: 62]
+
+Recuerda dejar el archivo `index.html` en la carpeta raíz del proyecto (`C:\Programación III\Semana18\index.html`), desde donde corre `ServidorVisitas`, porque el servidor lo lee con `Files.readString(Path.of("index.html"))`[cite: 39, 57, 70].
